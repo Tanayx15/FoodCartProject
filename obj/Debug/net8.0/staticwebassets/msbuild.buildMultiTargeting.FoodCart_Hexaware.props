@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\FoodCart_Hexaware.props" />
+</Project>

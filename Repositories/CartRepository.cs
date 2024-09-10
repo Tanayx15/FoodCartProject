@@ -1,0 +1,95 @@
+﻿using FoodCart_Hexaware.Data;
+using FoodCart_Hexaware.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace FoodCart_Hexaware.Repositories
+{
+    public class CartRepository : ICartRepository
+    {
+        private readonly ApplicationDbContext _context;
+
+        public CartRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<IEnumerable<Cart>> GetAllCartItemsAsync()
+        {
+            return await _context.Carts.ToListAsync();
+        }
+
+        public async Task<Cart> AddToCartAsync(Cart cart)
+        {
+            await _context.Carts.AddAsync(cart);
+            await _context.SaveChangesAsync();
+            return cart;
+        }
+
+        public async Task<Cart> UpdateCartItemAsync(Cart cart)
+        {
+            var existingCartItem = await _context.Carts.Include(c => c.MenuItems).FirstOrDefaultAsync(c => c.CartID == cart.CartID);
+
+            if (existingCartItem == null)
+            {
+                throw new KeyNotFoundException($"Cart item with ID {cart.CartID} not found.");
+            }
+            existingCartItem.Quantity = cart.Quantity;
+            existingCartItem.TotalCost = cart.Quantity * existingCartItem.MenuItems.ItemPrice;
+            existingCartItem.UpdatedAt = DateTime.Now;
+
+            _context.Carts.Update(existingCartItem);
+            await _context.SaveChangesAsync();
+
+            return existingCartItem;
+        }
+
+        public async Task<bool> RemoveCartItemAsync(int cartId)
+        {
+            var cartItem = await _context.Carts.FirstOrDefaultAsync(c => c.CartID == cartId);
+
+            if (cartItem == null)
+            {
+                return false;
+            }
+
+            _context.Carts.Remove(cartItem);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+
+        public async Task<MenuItems> GetMenuItemByIdAsync(int itemId)
+        {
+            return await _context.Menus.FirstOrDefaultAsync(mi => mi.ItemID == itemId);
+        }
+
+        public async Task<Cart> GetCartItemByIdAsync(int cartId)
+        {
+            return await _context.Carts.Include(c => c.MenuItems).FirstOrDefaultAsync(c => c.CartID == cartId);
+        }
+
+        public async Task<IEnumerable<Cart>> GetCartItemsByUserIdAsync(int userId)
+        {
+            return await _context.Carts
+                .Where(c => c.UserID == userId)
+                .ToListAsync();
+        }
+
+        public async Task ClearCartAsync(int cartId)
+        {
+            var cartItems = await _context.Carts
+                .Where(c => c.CartID == cartId)
+                .ToListAsync();
+
+            _context.Carts.RemoveRange(cartItems);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Cart>> GetCartItemsByCartIdAsync(int cartId)
+        {
+            return await _context.Carts
+                .Where(c => c.CartID == cartId)
+                .ToListAsync();
+        }
+    }
+}
