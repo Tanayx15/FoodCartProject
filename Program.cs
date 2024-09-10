@@ -1,12 +1,13 @@
 
 using FoodCart_Hexaware.Data;
+using FoodCart_Hexaware.Repositories;
+using FoodCart_Hexaware.Services; // Add this line
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 using System.Text;
-using FoodCart_Hexaware.Repositories;
 
 namespace FoodCart_Hexaware
 {
@@ -32,11 +33,13 @@ namespace FoodCart_Hexaware
             builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
-            builder.Services.AddScoped<IOrderItemsRepository , OrderItemRepository>();
+            builder.Services.AddScoped<IOrderItemsRepository, OrderItemRepository>();
+            builder.Services.AddScoped<IOrderTrackingRepository, OrderTrackingRepository>(); // Add this line
 
+            // Register services
+            builder.Services.AddScoped<IOrderTrackingService, OrderTrackingService>(); // Add this line
 
             builder.Services.AddHttpContextAccessor();
-
 
             // Configure DbContext
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -114,3 +117,4 @@ namespace FoodCart_Hexaware
         }
     }
 }
+
