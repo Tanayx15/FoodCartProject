@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FoodCart_Hexaware.Models
 {
@@ -15,6 +16,8 @@ namespace FoodCart_Hexaware.Models
         [StringLength(50)]
         public string CardHolderName { get; set; }
 
+        [Required]
+        [ForeignKey("Payments")]
         public int PaymentId { get; set; }
         public Payment Payment { get; set; }
     }

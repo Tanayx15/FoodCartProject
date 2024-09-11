@@ -22,6 +22,8 @@ namespace FoodCart_Hexaware.Models
         [Required]
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Amount { get; set; }
+
+        [ForeignKey("Orders")]
         public int OrderID { get; set; }
 
         //Reference Navigation Property

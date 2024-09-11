@@ -8,7 +8,7 @@ namespace FoodCart_Hexaware.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Hotel Owner")]
+    [Authorize(Roles = "Admin")]
     public class MenuCategoryController : ControllerBase
     {
         private readonly IMenuCategoryRepository _repository;

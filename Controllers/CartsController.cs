@@ -1,6 +1,7 @@
 ﻿using FoodCart_Hexaware.DTO;
 using FoodCart_Hexaware.Models;
 using FoodCart_Hexaware.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,11 +9,12 @@ namespace FoodCart_Hexaware.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CartController : ControllerBase
+    [Authorize(Roles ="Customer")]
+    public class CartsController : ControllerBase
     {
         private readonly ICartRepository _cartRepository;
 
-        public CartController(ICartRepository cartRepository)
+        public CartsController(ICartRepository cartRepository)
         {
             _cartRepository = cartRepository;
         }
@@ -30,7 +32,7 @@ namespace FoodCart_Hexaware.Controllers
             }
             catch (Exception ex)
             {
-                // Return a generic error message
+                
                 return StatusCode(500, new { message = "An error occurred while retriving the cart item.", details = ex.Message });
             }
         }
@@ -139,11 +141,26 @@ namespace FoodCart_Hexaware.Controllers
             }
         }
 
-        [HttpGet("{userId}")]
-        public IActionResult GetCartDetails(int userId)
+        [HttpGet("GetCartItems/{cartId}")]
+        public async Task<IActionResult> GetCartItemsByCartId(int cartId)
         {
-            var cart = _cartRepository.GetCartItemsByUserIdAsync(userId);
-            return Ok(cart);
+            try
+            {
+                var cartItems = await _cartRepository.GetCartItemsByCartIdAsync(cartId);
+
+                if (cartItems == null || !cartItems.Any())
+                {
+                    return NotFound(new { message = "No items found for the given cart ID." });
+                }
+
+                return Ok(cartItems);
+            }
+            catch (Exception ex)
+            {
+                
+                return StatusCode(500, new { message = $"An error occurred: {ex.Message}" });
+            }
         }
     }
 }
+

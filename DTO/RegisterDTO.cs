@@ -22,6 +22,8 @@ namespace FoodCart_Hexaware.DTO
         [Required(ErrorMessage = "Role is Required to access the features")]
         public string Role { get; set; }  // Customer / Admin / HotelManager
 
+        public int? RestaurantID { get; set; }
+
 
 
     }

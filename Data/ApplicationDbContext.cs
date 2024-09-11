@@ -489,6 +489,99 @@ namespace FoodCart_Hexaware.Data
         CategoryID = 11
     }
         );
+            modelBuilder.Entity<DeliveryAgent>().HasData(
+    new DeliveryAgent
+    {
+        DeliveryAgentID = 1,
+        Name = "John Doe",
+        PhoneNumber = "123-456-7890",
+        Email = "john.doe@example.com",
+        Address = "123 Elm Street, Springfield",
+        IsAvailable = true,
+    },
+    new DeliveryAgent
+    {
+        DeliveryAgentID = 2,
+        Name = "Jane Smith",
+        PhoneNumber = "234-567-8901",
+        Email = "jane.smith@example.com",
+        Address = "456 Oak Avenue, Springfield",
+        IsAvailable = true,
+    },
+    new DeliveryAgent
+    {
+        DeliveryAgentID = 3,
+        Name = "Emily Johnson",
+        PhoneNumber = "345-678-9012",
+        Email = "emily.johnson@example.com",
+        Address = "789 Pine Road, Springfield",
+        IsAvailable = true,
+    },
+    new DeliveryAgent
+    {
+        DeliveryAgentID = 4,
+        Name = "Michael Brown",
+        PhoneNumber = "456-789-0123",
+        Email = "michael.brown@example.com",
+        Address = "101 Maple Drive, Springfield",
+        IsAvailable = true,
+    },
+    new DeliveryAgent
+    {
+        DeliveryAgentID = 5,
+        Name = "Sarah Davis",
+        PhoneNumber = "567-890-1234",
+        Email = "sarah.davis@example.com",
+        Address = "202 Birch Lane, Springfield",
+        IsAvailable = true,
+    },
+    new DeliveryAgent
+    {
+        DeliveryAgentID = 6,
+        Name = "David Wilson",
+        PhoneNumber = "678-901-2345",
+        Email = "david.wilson@example.com",
+        Address = "303 Cedar Street, Springfield",
+        IsAvailable = true,
+    },
+    new DeliveryAgent
+    {
+        DeliveryAgentID = 7,
+        Name = "Laura Miller",
+        PhoneNumber = "789-012-3456",
+        Email = "laura.miller@example.com",
+        Address = "404 Spruce Avenue, Springfield",
+        IsAvailable = true,
+    },
+    new DeliveryAgent
+    {
+        DeliveryAgentID = 8,
+        Name = "Daniel Taylor",
+        PhoneNumber = "890-123-4567",
+        Email = "daniel.taylor@example.com",
+        Address = "505 Fir Street, Springfield",
+        IsAvailable = true,
+    },
+    new DeliveryAgent
+    {
+        DeliveryAgentID = 9,
+        Name = "Olivia Anderson",
+        PhoneNumber = "901-234-5678",
+        Email = "olivia.anderson@example.com",
+        Address = "606 Redwood Road, Springfield",
+        IsAvailable = true,
+    },
+    new DeliveryAgent
+    {
+        DeliveryAgentID = 10,
+        Name = "James Martinez",
+        PhoneNumber = "012-345-6789",
+        Email = "james.martinez@example.com",
+        Address = "707 Sequoia Boulevard, Springfield",
+        IsAvailable = true,
+    }
+);
+
 
 
 

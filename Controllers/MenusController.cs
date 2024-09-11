@@ -8,7 +8,7 @@ namespace FoodCart_Hexaware.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Customer")]
+    [Authorize(Roles = "Customer")]   
     public class MenusController : ControllerBase
     {
         private readonly IMenuRepository _menuRepository;
@@ -379,7 +379,7 @@ namespace FoodCart_Hexaware.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
+        
         [HttpPost("link/{menuItemId}/{restaurantId}")]
         public async Task<IActionResult> LinkMenuItemToRestaurant(int menuItemId, int restaurantId)
         {

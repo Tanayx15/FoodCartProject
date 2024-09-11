@@ -254,3 +254,4 @@ C:\Users\anush\source\repos\FoodCart_Hexaware\FoodCart_Hexaware\obj\Debug\net8.0
 C:\Users\anush\source\repos\FoodCart_Hexaware\FoodCart_Hexaware\obj\Debug\net8.0\FoodCart_Hexaware.pdb
 C:\Users\anush\source\repos\FoodCart_Hexaware\FoodCart_Hexaware\obj\Debug\net8.0\FoodCart_Hexaware.genruntimeconfig.cache
 C:\Users\anush\source\repos\FoodCart_Hexaware\FoodCart_Hexaware\obj\Debug\net8.0\ref\FoodCart_Hexaware.dll
+C:\Users\anush\source\repos\FoodCart_Hexaware\FoodCart_Hexaware\obj\Debug\net8.0\FoodCart_Hexaware.sourcelink.json

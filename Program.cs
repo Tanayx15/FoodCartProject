@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 using System.Text;
 using FoodCart_Hexaware.Repositories;
+using FoodCart_Hexaware.Services;
 
 namespace FoodCart_Hexaware
 {
@@ -30,12 +31,10 @@ namespace FoodCart_Hexaware
             builder.Services.AddScoped<IMenuItemRepository, MenuItemRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
-            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-            builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
-            builder.Services.AddScoped<IOrderItemsRepository , OrderItemRepository>();
 
+            
 
-            builder.Services.AddHttpContextAccessor();
+            
 
 
             // Configure DbContext
@@ -91,6 +90,20 @@ namespace FoodCart_Hexaware
                     }
                 });
             });
+
+            builder.Services.AddTransient<EmailService>(provider =>
+                new EmailService(
+                    "smtp.ethereal.email",
+                    587,                  
+                    "ova.harris33@ethereal.email", 
+                    "8YMQDMeWHp3gSzHZJc", 
+                    "ova.harris33@ethereal.email" 
+                ));
+
+            builder.Services.AddTransient<OrderConfirmationService>();
+
+            builder.Services.AddScoped<IRestaurantService, RestaurantService>();
+
 
             var app = builder.Build();
 

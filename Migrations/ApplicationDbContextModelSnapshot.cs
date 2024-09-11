@@ -122,14 +122,101 @@ namespace FoodCart_Hexaware.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("UsersUserID")
-                        .HasColumnType("int");
-
                     b.HasKey("DeliveryAgentID");
 
-                    b.HasIndex("UsersUserID");
-
                     b.ToTable("DeliveryAgents");
+
+                    b.HasData(
+                        new
+                        {
+                            DeliveryAgentID = 1,
+                            Address = "123 Elm Street, Springfield",
+                            Email = "john.doe@example.com",
+                            IsAvailable = true,
+                            Name = "John Doe",
+                            PhoneNumber = "123-456-7890"
+                        },
+                        new
+                        {
+                            DeliveryAgentID = 2,
+                            Address = "456 Oak Avenue, Springfield",
+                            Email = "jane.smith@example.com",
+                            IsAvailable = true,
+                            Name = "Jane Smith",
+                            PhoneNumber = "234-567-8901"
+                        },
+                        new
+                        {
+                            DeliveryAgentID = 3,
+                            Address = "789 Pine Road, Springfield",
+                            Email = "emily.johnson@example.com",
+                            IsAvailable = true,
+                            Name = "Emily Johnson",
+                            PhoneNumber = "345-678-9012"
+                        },
+                        new
+                        {
+                            DeliveryAgentID = 4,
+                            Address = "101 Maple Drive, Springfield",
+                            Email = "michael.brown@example.com",
+                            IsAvailable = true,
+                            Name = "Michael Brown",
+                            PhoneNumber = "456-789-0123"
+                        },
+                        new
+                        {
+                            DeliveryAgentID = 5,
+                            Address = "202 Birch Lane, Springfield",
+                            Email = "sarah.davis@example.com",
+                            IsAvailable = true,
+                            Name = "Sarah Davis",
+                            PhoneNumber = "567-890-1234"
+                        },
+                        new
+                        {
+                            DeliveryAgentID = 6,
+                            Address = "303 Cedar Street, Springfield",
+                            Email = "david.wilson@example.com",
+                            IsAvailable = true,
+                            Name = "David Wilson",
+                            PhoneNumber = "678-901-2345"
+                        },
+                        new
+                        {
+                            DeliveryAgentID = 7,
+                            Address = "404 Spruce Avenue, Springfield",
+                            Email = "laura.miller@example.com",
+                            IsAvailable = true,
+                            Name = "Laura Miller",
+                            PhoneNumber = "789-012-3456"
+                        },
+                        new
+                        {
+                            DeliveryAgentID = 8,
+                            Address = "505 Fir Street, Springfield",
+                            Email = "daniel.taylor@example.com",
+                            IsAvailable = true,
+                            Name = "Daniel Taylor",
+                            PhoneNumber = "890-123-4567"
+                        },
+                        new
+                        {
+                            DeliveryAgentID = 9,
+                            Address = "606 Redwood Road, Springfield",
+                            Email = "olivia.anderson@example.com",
+                            IsAvailable = true,
+                            Name = "Olivia Anderson",
+                            PhoneNumber = "901-234-5678"
+                        },
+                        new
+                        {
+                            DeliveryAgentID = 10,
+                            Address = "707 Sequoia Boulevard, Springfield",
+                            Email = "james.martinez@example.com",
+                            IsAvailable = true,
+                            Name = "James Martinez",
+                            PhoneNumber = "012-345-6789"
+                        });
                 });
 
             modelBuilder.Entity("FoodCart_Hexaware.Models.MenuCategory", b =>
@@ -749,9 +836,6 @@ namespace FoodCart_Hexaware.Migrations
                     b.Property<int>("OrderID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("OrdersOrderID")
-                        .HasColumnType("int");
-
                     b.Property<string>("PaymentMethod")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -767,7 +851,7 @@ namespace FoodCart_Hexaware.Migrations
 
                     b.HasKey("PaymentId");
 
-                    b.HasIndex("OrdersOrderID");
+                    b.HasIndex("OrderID");
 
                     b.ToTable("Payments");
                 });
@@ -958,6 +1042,9 @@ namespace FoodCart_Hexaware.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserID"));
 
+                    b.Property<string>("AlternativePhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -971,6 +1058,9 @@ namespace FoodCart_Hexaware.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("RestaurantID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -980,6 +1070,8 @@ namespace FoodCart_Hexaware.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserID");
+
+                    b.HasIndex("RestaurantID");
 
                     b.ToTable("Users");
                 });
@@ -1027,13 +1119,6 @@ namespace FoodCart_Hexaware.Migrations
                     b.Navigation("MenuItems");
 
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("FoodCart_Hexaware.Models.DeliveryAgent", b =>
-                {
-                    b.HasOne("FoodCart_Hexaware.Models.Users", null)
-                        .WithMany("DeliveryAgents")
-                        .HasForeignKey("UsersUserID");
                 });
 
             modelBuilder.Entity("FoodCart_Hexaware.Models.MenuItems", b =>
@@ -1133,7 +1218,9 @@ namespace FoodCart_Hexaware.Migrations
                 {
                     b.HasOne("FoodCart_Hexaware.Models.Orders", "Orders")
                         .WithMany()
-                        .HasForeignKey("OrdersOrderID");
+                        .HasForeignKey("OrderID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Orders");
                 });
@@ -1147,6 +1234,15 @@ namespace FoodCart_Hexaware.Migrations
                         .IsRequired();
 
                     b.Navigation("Payment");
+                });
+
+            modelBuilder.Entity("FoodCart_Hexaware.Models.Users", b =>
+                {
+                    b.HasOne("FoodCart_Hexaware.Models.Restaurant", "restaurant")
+                        .WithMany()
+                        .HasForeignKey("RestaurantID");
+
+                    b.Navigation("restaurant");
                 });
 
             modelBuilder.Entity("MenuItemsRestaurant", b =>
@@ -1207,8 +1303,6 @@ namespace FoodCart_Hexaware.Migrations
             modelBuilder.Entity("FoodCart_Hexaware.Models.Users", b =>
                 {
                     b.Navigation("Carts");
-
-                    b.Navigation("DeliveryAgents");
 
                     b.Navigation("Notifications");
 

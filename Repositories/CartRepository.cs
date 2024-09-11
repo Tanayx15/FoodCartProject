@@ -85,11 +85,23 @@ namespace FoodCart_Hexaware.Repositories
             await _context.SaveChangesAsync();
         }
 
+
+
         public async Task<List<Cart>> GetCartItemsByCartIdAsync(int cartId)
         {
-            return await _context.Carts
-                .Where(c => c.CartID == cartId)
-                .ToListAsync();
+            try
+            {
+                var cartItems = await _context.Carts
+                    .Where(c => c.CartID == cartId)
+                    .ToListAsync();
+
+                return cartItems;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred while retrieving cart items: {ex.Message}", ex);
+            }
         }
     }
 }
+

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace FoodCart_Hexaware.Models
@@ -21,9 +23,19 @@ namespace FoodCart_Hexaware.Models
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Phone number must be 10 digits.")]
         public string PhoneNumber { get; set; }
 
+        [Phone]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "Phone number must be 10 digits.")]
+
+        public string? AlternativePhoneNumber { get; set; }
+
         [Required(ErrorMessage = "Role is Required to access the features")]
 
         public string Role { get; set; }  //Customer /Admin/ HotelManager
+
+        [ForeignKey("Restaurants")]
+        public int? RestaurantID { get; set; }
+
+        public Restaurant restaurant { get; set; }
 
         //Navigation Property
         [JsonIgnore]
@@ -32,8 +44,7 @@ namespace FoodCart_Hexaware.Models
         public ICollection<Cart> Carts { get; set; } = new List<Cart>();
         [JsonIgnore]
         public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
-        [JsonIgnore]
-        public ICollection<DeliveryAgent> DeliveryAgents { get; set; } = new List<DeliveryAgent>();
+
 
 
 
